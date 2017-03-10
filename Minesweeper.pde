@@ -40,7 +40,7 @@ public void setBombs()
             i--;
         }
     }
-    
+
 }
 
 public void draw ()
@@ -95,7 +95,34 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        //your code here
+        if (keyPressed == true)
+        {
+            marked = !marked;
+            if (marked == false)
+            {
+                clicked = false;
+            }
+        }
+        else if (bombs.contains(this))
+            displayLosingMessage();
+        else if (countBombs(r,c) > 0)
+            label = "" + countBombs(r,c);
+        else
+        {
+            for(int i = -1; i <= 1; i++)
+                for(int j = -1; j <= 1; j++)
+                {
+                    if(r==0 && c==0)
+                    {
+
+                    }
+                    else if(isValid(r + i, c + j) && buttons[r + i][c + j].isClicked() == false)
+                        buttons[r + i][c + j].mousePressed();
+                }
+                     
+        }
+            
+        
     }
 
     public void draw () 
@@ -128,7 +155,12 @@ public class MSButton
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
-        //your code here
+        for(int i = -1; i <= 1; i++)
+            for(int j = -1; j <= 1; j++)
+                if(isValid(r + i, c + j))
+                    if(bombs.contains(buttons[r+i][c+j]))
+                        numBombs++;
+
         return numBombs;
     }
 }
